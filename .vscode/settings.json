@@ -1,0 +1,9 @@
+{
+  "markdown.suggest.paths.enabled": true,
+  "markdown.completion.respectVscodeSearchExclude": true,
+  "markdown.validate.enabled": true,
+  "files.associations": {
+    "*.md": "markdown"
+  }
+}
+
