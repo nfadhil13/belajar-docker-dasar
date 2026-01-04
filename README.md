@@ -66,9 +66,7 @@ docker container logs <container_id>
 docker container logs -f <container_name>
 docker container logs -f <container_id>
 
-# Container Exec
-## To Execute
-docker container
+
 ```
 
 **Notes**
@@ -114,3 +112,114 @@ docker create --name mongoexample -p 27017:27017 --env MONGO_INITDB_ROOT_USERNAM
 ```
 
 ### Container Stats
+
+See the details resource usage of a container.
+
+```bash
+docker stats
+```
+
+### Container Resource Limit
+
+Container Default Memory Usage
+
+- macOS & Windows: Use only the amount of CPU and memory allocated to Docker (configurable by the user).
+- Linux: Use all available CPU and memory resources on the host by default.
+
+The problem is that each container can potentially consume too many resources, which may impact other containers. To avoid this, you can set resource limits for each container.
+
+```bash
+docker container create --name <container_name> --publish <host_port>:<container_port> --memory <amount_of_memory> --cpus <number_of_cpus> <image>
+
+# Example
+docker container create --name smallnginx --publish 3003:80 --memory 100m --cpus 0.5 nginx:latest
+```
+
+- "--cpus" defines the maximum number of CPUs the container can use; fractional values (e.g., 1.5) are allowed.
+- "--memory" sets the maximum amount of memory available to the container. You can specify values in b (bytes), k (kilobytes), m (megabytes), or g (gigabytes).
+
+## Docker Mounts
+
+A Feature so that a container can accessing file/folder to host system operation.
+
+**Mount Parameters**
+| Parameter | Description |
+|-------------|---------------------------------------------------------------------------------------------------|
+| type | Mount type, either `bind` or `volume` |
+| source | Location of the file or folder on the host system |
+| destination | Location of the file or folder in the container |
+| readonly | If present, the file or folder can only be read inside the container, not written to |
+
+```bash
+docker container create --name <container_name> --mount "type=bind,source=<host_source>,destination=<container_folder>;readonly<optional>" <image_name>
+
+docker create --name mongoexample -p 27017:27017 --env MONGO_INITDB_ROOT_USERNAME=fadhil --env MONGO_INITDB_ROOT_PASSWORD=naufal --mount "type=bind,source=/Users/fadhil/belajar-docker/mongodata,destination=/data/db" mongo:latest
+```
+
+## Docker Volume
+
+Bind mounts are no longer recommended; instead, using Volumes is best practice. Volumes are similar to bind mounts in that they allow you to store data, but instead of storing the data on the host, Docker manages the storage internally.
+
+- Every time you create a container, Docker will create a volume for that container.
+
+```bash
+# Create a new volume with a specified name
+docker volume create <volume_name>
+
+# List all docker volume
+docker volume ls
+
+# Remove a Volume
+docker volume rm <volume_name>
+```
+
+### Volume Container
+
+We can assign a volume to a container. Every data stored in volum is not highly coupled to the container, so when we remove the container the data are safe.
+
+```bash
+docker container create --name <container_name> --mount "type=volume,source=<volume_name>,destination=<container_path>" -p <HOST_PORT>:<CONTAINER_PORT> <image>
+
+# Example
+docker volume create redis-volume
+
+docker run --name redis-volume -d --mount "type=volume,source=redis-volume,destination=/data" -p 3003:6379 redis redis-server --save 1 1 --loglevel warning
+```
+
+### Backup Manual Example
+
+```bash
+
+# Stop the container (to avoid changes)
+# Let says this redis-volume is mounted to redis-volume volume
+docker stop redis-volume
+
+# Create backup dummy container
+docker container create --name nginxbackup --mount "type=bind,source=/Users/fadhil/Documents/Development/learning/devops/belajar-docker-dasar/bakcup,destination=/backup" --mount "type=volume,source=redis-volume,destination=/data" nginx
+
+# Start the dummy container
+docker container start nginxbackup
+
+# Do Exec on the container
+docker container exec -i -t nginxbackup /bin/bash
+
+# Backup using tar
+tar cvf /backup/backup.tar.gz /data
+
+```
+
+### Automatic Docker Container Run Backup
+
+```bash
+docker container run --rm --name ubuntu --mount "type=bind,source=/Users/fadhil/Documents/Development/learning/devops/belajar-docker-dasar/bakcup,destination=/backup" --mount "type=volume,source=redis-volume,destination=/data" ubuntu:latest tar cvf /backup/backup.tar.gz /data
+```
+
+### Docker container restore
+
+```bash
+## Create Restore Volume
+docker volume create redis-restore
+
+## Exec the restore
+docker container run --rm --name ubuntu --mount "type=bind,source=/Users/fadhil/Documents/Development/learning/devops/belajar-docker-dasar/bakcup,destination=/backup" --mount "type=volume,source=redis-restore,destination=/data" ubuntu:latest bash -c "cd /data && tar xvf /backup/backup.tar.gz --strip 1"
+```
