@@ -222,4 +222,99 @@ docker volume create redis-restore
 
 ## Exec the restore
 docker container run --rm --name ubuntu --mount "type=bind,source=/Users/fadhil/Documents/Development/learning/devops/belajar-docker-dasar/bakcup,destination=/backup" --mount "type=volume,source=redis-restore,destination=/data" ubuntu:latest bash -c "cd /data && tar xvf /backup/backup.tar.gz --strip 1"
+
+
+## Test
+docker run --name redis-restored --mount "type=volume,source=redis-restore,destination=/data" redis:latest
 ```
+
+## Docker Network
+
+- By default, Docker containers are isolated from each other. Containers cannot talk to each other directly.
+- Docker has a feature called Network that lets containers communicate with each other.
+- By using a Docker Network, you can connect containers so they are in the same network.
+- If containers are on the same network, they can automatically talk to each other.
+
+```bash
+## List existing network
+docker network ls
+
+## Create Network
+## Drivers -> Bridget, host, none
+docker network create --driver <driver_name> <network_name>
+
+## Remove Network
+docker network rm <network_name>
+
+
+```
+
+### Container Network
+
+- After creating a Network, you can add containers to the network.
+- Containers inside the same network can communicate with each other (depends on the network driver type).
+- A container can access another container by using its container name as the hostname.
+
+```bash
+docker network create mongo-network
+
+docker container create --name mongo-server --network mongo-network --env MONGO_INITDB_ROOT_USERNAME=admin --env MONGO_INITDB_ROOT_PASSWORD=password mongo
+
+docker container create --name mongo-client --network mongo-network --env ME_CONFIG_MONGODB_URL=mongodb://admin:password@mongo-server:27017/ -p 3005:8081 mongo-express
+
+docker start mongo-server
+
+docker start mongo-client
+
+## Disconnect container to a network
+docker network disconnect mongo-network mongo-server
+
+## Connect a container to a netwrok
+docker network connect mongo-network mongo-server
+```
+
+### Inspect
+
+Inspect detail of a docker feature
+
+```bash
+
+# Examples:
+docker container inspect <container_name_or_id>
+docker image inspect <image_name_or_id>
+docker network inspect <network_name_or_id>
+docker volume inspect <volume_name_or_id>
+
+```
+
+### Prune
+
+Prune in Docker refers to the action of removing unused data, such as stopped containers, unused networks, dangling images, and build cache. This is useful for freeing up disk space and keeping your Docker environment clean.
+
+Docker provides different prune commands to remove specific types of unused resources, or you can use a general command to remove everything at once.
+
+**Examples:**
+
+```bash
+# Remove all stopped containers, unused networks, dangling images, and build cache
+docker system prune
+
+# Add -a to also remove all unused images (not just dangling ones)
+docker system prune -a
+
+# Remove only unused containers
+docker container prune
+
+# Remove only unused images
+docker image prune
+
+# Remove only unused networks
+docker network prune
+
+# Remove only unused volumes
+docker volume prune
+```
+
+**Note:**
+
+- Pruning is a destructive operation; ensure you do not need the resources before running these commands as they cannot be recovered once deleted.
