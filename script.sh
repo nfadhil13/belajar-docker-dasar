@@ -1,0 +1,1 @@
+dokcer build -t nfadhil13/from from
