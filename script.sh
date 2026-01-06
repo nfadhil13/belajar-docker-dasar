@@ -1,1 +1,1 @@
-dokcer build -t nfadhil13/from from
+docker build -t nfadhil13/from from
