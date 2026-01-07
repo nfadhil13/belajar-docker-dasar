@@ -79,6 +79,28 @@ The `ADD` instruction allows you to copy files and directories from a source pat
 You can specify multiple files to add using Golang-style file pattern (https://pkg.go.dev/path/filepath#match)
 
 ```Dockerfile
+
 ADD world.txt hello #Add world.txt file to hello
 ADD *.txt hello #Add all txt file to hello folder
 ```
+
+## Copy Instruction
+
+The `COPY` instruction is used to add files from your source folder into a destination inside the Docker image.
+
+What's the difference between `COPY` and `ADD`?
+
+- `COPY` only copies files, while `ADD` can also download from a URL and automatically extract compressed files like `.tar.gz`.
+- Best practice: use `COPY` whenever possible for simple copying. If you need to extract compressed files, use `RUN` to extract them after copying with `COPY`.
+
+**Example:**
+
+```Dockerfile
+COPY world.txt hello/              # Copy world.txt to hello folder
+COPY *.txt hello/                 # Copy all txt files to hello folder
+COPY src/ dest/                   # Copy everything from src/ to dest/ in the image
+```
+
+## .dockerIgnore
+
+To Ignore a file when copy/add file. You just need to create `.dockerignore` file in the same directory with the `Dockerfile`

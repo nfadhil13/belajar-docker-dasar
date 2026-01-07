@@ -29,3 +29,21 @@ docker container create --name addexample nfadhil13/add
 docker container start addexample
 
 docker container logs addexample
+
+## Copy Example
+docker build -t nfadhil13/copy 6_copy
+
+docker container create --name copyexample nfadhil13/copy
+
+docker container start copyexample
+
+docker container logs copyexample
+
+## Ignore Example
+docker build -t nfadhil13/ignore 7_ignore
+
+docker container create --name ignoreexample nfadhil13/ignore
+
+docker container start ignoreexample
+
+docker container logs ignoreexample
