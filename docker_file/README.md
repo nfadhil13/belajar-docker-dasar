@@ -63,9 +63,22 @@ CMD "cat", "hello/world.txt"
 
 ## Label Instruction
 
-Metadata than can be added to the Image. This is purely just an information to descibe something regarding to the image
+Metadata that can be added to the Image. This is purely just information to describe something about the image.
 
 ```DockerFile
 LABEL author="Naufal Fadhil"
 LABEL last_update="7 January 2026"
+```
+
+All the label data will be shown when you inspect the image and the container.
+
+## Add Instruction
+
+The `ADD` instruction allows you to copy files and directories from a source path to a specific folder in the Docker image. It also automatically extracts compressed files such as `.zip` and `.tar.gz`.
+
+You can specify multiple files to add using Golang-style file pattern (https://pkg.go.dev/path/filepath#match)
+
+```Dockerfile
+ADD world.txt hello #Add world.txt file to hello
+ADD *.txt hello #Add all txt file to hello folder
 ```
