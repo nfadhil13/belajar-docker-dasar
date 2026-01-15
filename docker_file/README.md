@@ -110,3 +110,16 @@ To Ignore a file when copy/add file. You just need to create `.dockerignore` fil
 The `EXPOSE` instruction in a Dockerfile is used to indicate which ports a container will listen on at runtime. It serves as documentation between the person who builds the image and the person who runs the container, letting users know which network ports should be published.
 
 However, `EXPOSE` does not actually publish the port. To make the container's port accessible to the host (or external networks), you need to publish it using the `-p` or `--publish` flag when running the container.
+
+## Docker ENV Instruction
+
+The `ENV` instruction in Docker is used to set environment variables, either during the build process or at runtime inside the Docker container. Once defined in the Dockerfile, these environment variables can be referenced using the `${VAR_NAME}` syntax. Variables set using `ENV` are stored in the Docker image and can be viewed with `docker image inspect`.
+
+It's also possible to override or set environment variables when creating a Docker container by using the `--env` or `-e` flag with `docker container create` (e.g., `--env KEY=VALUE`).
+
+Key points:
+
+- Use `ENV` to define environment variables in the Dockerfile.
+- These variables are available during build and inside the running container.
+- They are visible when inspecting the image.
+- You can override them at container creation time.

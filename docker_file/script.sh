@@ -53,10 +53,23 @@ docker build -t nfadhil13/expose 8_expose
 
 docker image inspect nfadhil13/expose
 
-docker container create --name exposeexample -p 8080:3080 nfadhil13/expose
+docker container create --name exposeexample -p 3080:8080 nfadhil13/expose
 
 docker container start exposeexample
 
 docker container logs exposeexample
 
 docker container port exposeexample
+
+## Env Example
+docker build -t nfadhil13/env 9_env
+
+docker image inspect nfadhil13/env
+
+docker container create --name envexample -p 3081:7070 --env APP_PORT=7070 nfadhil13/env
+
+docker container start envexample
+
+docker container logs envexample
+
+docker container port envexample
