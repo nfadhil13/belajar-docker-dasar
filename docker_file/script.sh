@@ -73,3 +73,15 @@ docker container start envexample
 docker container logs envexample
 
 docker container port envexample
+
+## Volume Example
+docker build -t nfadhil13/volume 10_volume
+
+
+docker container create --name volumeexample -p 3082:8080 nfadhil13/volume
+
+docker container start volumeexample
+
+docker container logs volumeexample
+
+docker container port volumeexample
