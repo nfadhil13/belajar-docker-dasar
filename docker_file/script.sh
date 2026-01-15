@@ -47,3 +47,16 @@ docker container create --name ignoreexample nfadhil13/ignore
 docker container start ignoreexample
 
 docker container logs ignoreexample
+
+## Expose Example
+docker build -t nfadhil13/expose 8_expose
+
+docker image inspect nfadhil13/expose
+
+docker container create --name exposeexample -p 8080:3080 nfadhil13/expose
+
+docker container start exposeexample
+
+docker container logs exposeexample
+
+docker container port exposeexample

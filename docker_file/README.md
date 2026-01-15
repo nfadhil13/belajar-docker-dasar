@@ -104,3 +104,9 @@ COPY src/ dest/                   # Copy everything from src/ to dest/ in the im
 ## .dockerIgnore
 
 To Ignore a file when copy/add file. You just need to create `.dockerignore` file in the same directory with the `Dockerfile`
+
+## Expose
+
+The `EXPOSE` instruction in a Dockerfile is used to indicate which ports a container will listen on at runtime. It serves as documentation between the person who builds the image and the person who runs the container, letting users know which network ports should be published.
+
+However, `EXPOSE` does not actually publish the port. To make the container's port accessible to the host (or external networks), you need to publish it using the `-p` or `--publish` flag when running the container.
