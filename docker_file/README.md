@@ -131,3 +131,30 @@ The `VOLUME` instruction in a Dockerfile is used to create a mount point with a 
 ```DockerFile
 VOLUME ["path/1", "another_path"]
 ```
+
+## Working Directory
+
+It's like a home directory of the application or container, meaning it will be the starting directory. If it does not exist, it will create the directory/folder automatically.
+
+A working directory can be a relative path or an absolute path.
+
+```DockerFile
+# absolute path in root
+WORKDIR /app
+# as previously we started from /app, now we are on /app/home
+WORKDIR home
+# Now we will go to /another/app as this is an absolute path
+WORKDIR /another/app
+```
+
+## User Instruction
+
+This is like the 'user' we have in a Linux system. By default, a container will be working as root, but we can set the user or group using this instruction. Make sure that when changing user/group, you create the user and/or group first.
+
+```Dockerfile
+# Example for alpine
+RUN addgroup -S mygroup
+RUN adduser -S -D -h /app user mygroup
+RUN chown -R user:mygroup /app
+USER user
+```

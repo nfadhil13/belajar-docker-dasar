@@ -77,6 +77,7 @@ docker container port envexample
 ## Volume Example
 docker build -t nfadhil13/volume 10_volume
 
+docker image inspect nfadhil13/volume
 
 docker container create --name volumeexample -p 3082:8080 nfadhil13/volume
 
@@ -84,4 +85,29 @@ docker container start volumeexample
 
 docker container logs volumeexample
 
-docker container port volumeexample
+
+## Working Directory Example
+docker build -t nfadhil13/working_dir 11_working_dir
+
+docker image inspect nfadhil13/working_dir
+
+docker container create --name workingdirexample -p 3083:8080 nfadhil13/working_dir
+
+docker container start workingdirexample
+
+docker container logs workingdirexample
+
+docker container exec -i -t workingdirexample /bin/bash
+
+## User Example
+docker build -t nfadhil13/user 12_user
+
+docker image inspect nfadhil13/user
+
+docker container create --name userexample -p 3084:8080 nfadhil13/user
+
+docker container start userexample
+
+docker container logs userexample
+
+docker container exec -i -t userexample /bin/bash
