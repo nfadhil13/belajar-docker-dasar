@@ -102,8 +102,6 @@ docker container exec -i -t workingdirexample /bin/bash
 ## User Example
 docker build -t nfadhil13/user 12_user
 
-docker image inspect nfadhil13/user
-
 docker container create --name userexample -p 3084:8080 nfadhil13/user
 
 docker container start userexample

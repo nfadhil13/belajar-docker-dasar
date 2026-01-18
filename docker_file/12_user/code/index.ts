@@ -10,6 +10,7 @@ Bun.serve({
       },
     },
   },
+  hostname: "0.0.0.0",
   port: process.env.APP_PORT,
   development: {
     hmr: true,
