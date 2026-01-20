@@ -246,3 +246,5 @@ CMD ["Hello", "World"]
 
 - Only the last `ENTRYPOINT` instruction in a Dockerfile will take effect
 - `ENTRYPOINT` cannot be overridden at runtime (unlike `CMD`)
+
+## Multi Stage Build

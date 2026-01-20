@@ -1,0 +1,19 @@
+{
+  "name": "code",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start_dev": "ENVTYPE=DEV bun run index.ts",
+    "start": "ENVTYPE=PROD bun run index.ts",
+    "build": "bun build index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+  }
+}

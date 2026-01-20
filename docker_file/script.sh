@@ -125,3 +125,14 @@ docker build -t nfadhil13/entrypoint 15_entrypoint
 docker container create --name entrypointexample -p 3086:8080 nfadhil13/entrypoint start_dev
 
 docker container start entrypointexample
+
+## Entry Multi Stage Example
+docker build -t nfadhil13/multi_stage 16_multi_stage
+
+docker container create --name multi_stageexample -p 3087:8080 nfadhil13/multi_stage
+
+docker container start multi_stageexample
+
+docker container logs multi_stageexample
+
+docker container port multi_stageexample
