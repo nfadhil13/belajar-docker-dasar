@@ -158,3 +158,30 @@ RUN adduser -S -D -h /app user mygroup
 RUN chown -R user:mygroup /app
 USER user
 ```
+
+## Args
+
+This is similar to ENV, but only applies during build time. Args cannot be accessed at container runtime.
+
+## Health Check Instruction
+
+Is an instruction can be used to tell the docker how to determine whether the container is still healty or not.
+**Health Status**
+
+- Starting -> When the container just started
+- Healty -> Healthy
+- Unhealty -> Unhealty
+
+```Dockerfile
+## Disabled health check
+HEALTHCHECK NONE
+
+##
+HEALTHCHECK [OPTIONS] CMD
+
+## Execute Healthcheck every <Duration> ex : 30s
+HEALTHCHECK --interval==<Duration> ## Default 30s
+HEALTHCHECK --timeout==<Duration> ## Default 30$
+HEALTHCHECK --start-period=<Duration> ## Default 0s
+HEALTHCHECK --retries=N ##Default 3
+```

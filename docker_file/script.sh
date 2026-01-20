@@ -108,4 +108,13 @@ docker container start userexample
 
 docker container logs userexample
 
-docker container exec -i -t userexample /bin/bash
+docker container exec -i -t userexample /bin/sh
+
+## Health Check Example
+docker build -t nfadhil13/healthcheck 14_healthcheck
+
+docker container create --name healtcheckexample -p 3085:8080 nfadhil13/healthcheck
+
+docker container start healtcheckexample
+
+docker container ls
