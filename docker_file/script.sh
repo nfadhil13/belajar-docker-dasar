@@ -117,4 +117,11 @@ docker container create --name healtcheckexample -p 3085:8080 nfadhil13/healthch
 
 docker container start healtcheckexample
 
-docker container ls
+docker container inspect healtcheckexample
+
+## Entrypoint Example
+docker build -t nfadhil13/entrypoint 15_entrypoint
+
+docker container create --name entrypointexample -p 3086:8080 nfadhil13/entrypoint start_dev
+
+docker container start entrypointexample

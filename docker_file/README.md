@@ -185,3 +185,64 @@ HEALTHCHECK --timeout==<Duration> ## Default 30$
 HEALTHCHECK --start-period=<Duration> ## Default 0s
 HEALTHCHECK --retries=N ##Default 3
 ```
+
+## Entrypoint Instruction
+
+The `ENTRYPOINT` instruction in Docker is used to configure a container that will run as an executable. Unlike `CMD`, which can be easily overridden when running a container, `ENTRYPOINT` makes the container behave like an executable, and any arguments passed to `docker run` will be appended to the ENTRYPOINT command.
+
+**Key Differences between ENTRYPOINT and CMD:**
+
+- **CMD**: The command specified in `CMD` can be completely overridden when running the container. If you provide arguments to `docker run`, they will replace the entire `CMD`.
+- **ENTRYPOINT**: The command specified in `ENTRYPOINT` cannot be overridden. Arguments passed to `docker run` will be appended to the `ENTRYPOINT` command as additional parameters.
+
+**When to use ENTRYPOINT:**
+
+- When you want to create a container that behaves like an executable command
+- When you want to ensure a specific command always runs, but allow users to pass additional arguments
+- When building utility containers that should always run a specific program
+
+**Syntax:**
+
+```Dockerfile
+# Exec form (recommended)
+ENTRYPOINT ["executable", "param1", "param2"]
+
+# Shell form
+ENTRYPOINT command param1 param2
+```
+
+**Example:**
+
+```Dockerfile
+FROM alpine:3
+
+# ENTRYPOINT ensures 'echo' always runs
+ENTRYPOINT ["echo", "Hello"]
+
+# If you run: docker run myimage World
+# Output: Hello World
+# The "World" argument is appended to the ENTRYPOINT command
+```
+
+**Combining ENTRYPOINT with CMD:**
+
+You can use both `ENTRYPOINT` and `CMD` together. In this case, `CMD` provides default arguments to `ENTRYPOINT`. If arguments are provided to `docker run`, they will replace the `CMD` arguments but still be passed to `ENTRYPOINT`.
+
+```Dockerfile
+FROM alpine:3
+
+ENTRYPOINT ["echo"]
+CMD ["Hello", "World"]
+
+# If you run: docker run myimage
+# Output: Hello World
+
+# If you run: docker run myimage Goodbye
+# Output: Goodbye
+# The CMD arguments are replaced by "Goodbye"
+```
+
+**Important Notes:**
+
+- Only the last `ENTRYPOINT` instruction in a Dockerfile will take effect
+- `ENTRYPOINT` cannot be overridden at runtime (unlike `CMD`)
